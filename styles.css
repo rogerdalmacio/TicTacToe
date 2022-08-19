@@ -13,6 +13,80 @@
     --slate900: #0f172a;
 }
 
+.modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+}
+
+.active{
+    transition: all 1.5s ease;
+    background-color: rgba(0, 0, 0, .8);
+}
+
+.inactive{
+    transition: all 1.5s ease;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.modal-content {
+    background-color: white;
+    height: 150px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.enter-transition{
+    animation: transitionIn 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.exit-transition {
+    animation: transitionOut 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes transitionIn {
+    0%{
+        transform: translateY(-280%);
+    }
+    100%{
+        transform: translateY(0);
+    }
+}
+
+@keyframes transitionOut {
+    0%{
+        transform: translateY(0);
+    }
+    100%{
+        transform: translateY(-280%);
+    }
+}
+
+
+.modal-content > p {
+    font-size: 2em;
+}
+
+.modal-content > button {
+    background-color: transparent;
+    height: 30px;
+    width: 100px;
+    border: 1px solid var(--slate900);
+    cursor: pointer;
+}
+
+.modal-content > button:active{
+    transform: scale(.95);
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -69,3 +143,4 @@ body {
 .tictactoe > .grid-area:active {
     transform: scale(.9);
 }
+

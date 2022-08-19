@@ -1,5 +1,14 @@
+// selectors
 const tiles = document.querySelectorAll('.grid-area');
+const modal = document.getElementById("modal");
+const modalContent = document.getElementById("modalContent");
+const displayWinner = document.getElementById("displayWinner");
+const playAgain = document.querySelector('#playAgain');
+
+// variables
+
 let currentPlayer = true;
+let playAgainBool = true;
 let gameBoard = {}
 const winningCombination = [
     [1,2,3],
@@ -12,28 +21,44 @@ const winningCombination = [
     [3,5,7]
 ];
 
-function gameWinner() {
-    for(let i = 0; i < winningCombination.length; i++){
-        console.log(winningCombination[i].every(index => {
-            gameBoard[index] === 'X';
-        }))
-    }
-    // for(let i = 0; i < winningCombination.length; i++){
-    //     for(let j = 0; j < winningCombination[i].length; j++){
-    //         console.log(gameBoard[winningCombination[i][j]])
-    //     }
-    // }
+
+
+function gameOver(player) {
+    displayWinner.textContent = `Congratulations player ${player} you win!`;
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.remove('inactive');
+        modal.classList.add('active');
+    }, 1);
+    modalContent.classList.remove('exit-transition');
+    modalContent.classList.add('enter-transition');
+}
+
+function gameWinner(player) {
+
+    return winningCombination.some(combination => {
+        return combination.every(index => {
+            return gameBoard[index] === player;
+        })
+    })
+
 }
 
 function playGame(key, player) {
 
     gameBoard[key] = player;
     currentPlayer = !currentPlayer;
-    gameWinner()
+    if(gameWinner(player)){
+        gameOver(player);
+    }else{
+
+    }
 }
 
 tiles.forEach(tile => {
     tile.addEventListener('click', (e) => {
+
+        if(tile.textContent) return;
 
         if(currentPlayer){
             tile.textContent = 'X';
@@ -43,5 +68,21 @@ tiles.forEach(tile => {
             playGame(tile.dataset.grid, tile.textContent);
         }
 
-    }, {once: true})
+    })
+})
+
+playAgain.addEventListener('click', e => {
+    currentPlayer = true;
+    gameBoard = {};
+    tiles.forEach(tile => {
+        tile.textContent = '';
+        tile.removeEventListener;
+    })
+    modalContent.classList.remove('enter-transition');
+    modalContent.classList.add('exit-transition');
+    modal.classList.remove('active');
+    modal.classList.add('inactive');
+    setTimeout(() => {
+        modal.style.display = 'none';
+    }, 1500);
 })
