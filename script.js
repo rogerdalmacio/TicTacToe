@@ -21,7 +21,16 @@ const winningCombination = [
     [3,5,7]
 ];
 
-
+function draw(){
+    displayWinner.textContent = `Draw`;
+    modal.style.display = 'flex';
+    setTimeout(() => {
+        modal.classList.remove('inactive');
+        modal.classList.add('active');
+    }, 1);
+    modalContent.classList.remove('exit-transition');
+    modalContent.classList.add('enter-transition');
+}
 
 function gameOver(player) {
     displayWinner.textContent = `Congratulations player ${player} you win!`;
@@ -50,8 +59,11 @@ function playGame(key, player) {
     currentPlayer = !currentPlayer;
     if(gameWinner(player)){
         gameOver(player);
-    }else{
+        return;
+    }
 
+    if(Object.keys(gameBoard).length > 8){
+        draw();
     }
 }
 
